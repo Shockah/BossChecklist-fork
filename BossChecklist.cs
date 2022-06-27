@@ -16,6 +16,7 @@ namespace BossChecklist
 	{
 		internal static BossChecklist instance;
 		internal static BossTracker bossTracker;
+		internal static BossChecklistAPI api;
 		internal static ModKeybind ToggleChecklistHotKey;
 		public static ModKeybind ToggleBossLog;
 
@@ -51,6 +52,7 @@ namespace BossChecklist
 			itemToMusicReference = (Dictionary<int, int>)itemToMusicField.GetValue(null);
 
 			bossTracker = new BossTracker();
+			api = new BossChecklistAPI(bossTracker);
 
 			MapAssist.FullMapInitialize();
 
@@ -120,6 +122,8 @@ namespace BossChecklist
 			bossTracker.FinalizeCollectionTypes(); // Collectible types have to be determined AFTER all items in orphan data has been added.
 			bossTracker.FinalizeBossData(); // Finalize all boss data. Entries cannot be further edited beyond this point.
 		}
+
+		protected override object GetAPI() => api;
 
 		// Messages:
 		// string:"AddBoss" - string:Bossname - float:bossvalue - Func<bool>:BossDowned
